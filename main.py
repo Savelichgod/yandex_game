@@ -49,6 +49,7 @@ class Menu:
         self.dy = 40
         self.items.append(MenuItem('Войти', 0))
         self.items.append(MenuItem('Зарегистрироваться', self.items[-1].y + self.dy))
+        self.items.append(MenuItem('Справка', self.items[-1].y + self.dy))
         self.items.append(MenuItem('Статистика', self.items[-1].y + self.dy))
 
     def draw(self, screen):
@@ -191,6 +192,21 @@ def print_statistics(screen):
     pygame.display.flip()
 
 
+def print_help(screen):
+    screen.fill(pygame.Color('white'))
+    info = ['Нажмите ESC для выхода в главное меню', 'Нажмите "m" для смены цветовой схемы',
+            'Нажмите "b" для смены режима бота']
+    font = pygame.font.SysFont(None, 30)
+    padding_x = 20
+    padding_y = 20
+    for i in range(len(info)):
+        text = info[i]
+        record = font.render(text, True, pygame.Color('black'))
+        screen.blit(record, (padding_x, padding_y))
+        padding_y += 40
+    pygame.display.flip()
+
+
 if __name__ == '__main__':
     pygame.init()
     running = True
@@ -211,6 +227,8 @@ if __name__ == '__main__':
             menu.draw(screen)
         if action == 'Войти':
             login_form.draw(screen)
+        if action == 'Справка':
+            print_help(screen)
         if action == 'Зарегистрироваться':
             registration_form.draw(screen)
         if action == 'Статистика':
@@ -232,11 +250,14 @@ if __name__ == '__main__':
                     menu.click(event.pos)
 
             if event.type == pygame.KEYDOWN:
+                # нажать ESC для выхода в меню
                 if event.key == pygame.K_ESCAPE:
                     action = 'Меню'
                 if action == 'game':
+                    # нажать m для смены цветовой схемы
                     if event.key == pygame.K_m:
-                        board.change_color_cheme()
+                        board.change_color_cheme(screen)
+                        # нажать b чтобы включить/выключить режим бота
                     if event.key == pygame.K_b:
                         board.bot = not board.bot
                 if action == 'Войти':
