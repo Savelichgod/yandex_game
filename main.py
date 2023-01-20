@@ -1,13 +1,12 @@
 import pygame
 
-
 from TicTacToe import *
 from dbFunc import *
 
 game_started = False
 
 
-class Menu_item:
+class MenuItem:
     """Создание пункта меню"""
 
     def __init__(self, text, y):
@@ -48,9 +47,9 @@ class Menu:
     def __init__(self):
         self.items = []
         self.dy = 40
-        self.items.append(Menu_item('Войти', 0))
-        self.items.append(Menu_item('Зарегистрироваться', self.items[-1].y + self.dy))
-        self.items.append(Menu_item('Статистика', self.items[-1].y + self.dy))
+        self.items.append(MenuItem('Войти', 0))
+        self.items.append(MenuItem('Зарегистрироваться', self.items[-1].y + self.dy))
+        self.items.append(MenuItem('Статистика', self.items[-1].y + self.dy))
 
     def draw(self, screen):
         """Отрисовка меню целиком"""
@@ -144,7 +143,7 @@ class Form:
             try:
                 self.fields[active_field] += chr(key_code)
             except Exception:
-                pass
+                print('Ошибка')
 
 
 class LoginForm(Form):
@@ -191,6 +190,7 @@ def print_statistics(screen):
         padding_y += 40
     pygame.display.flip()
 
+
 if __name__ == '__main__':
     pygame.init()
     running = True
@@ -217,7 +217,6 @@ if __name__ == '__main__':
             print_statistics(screen)
         if action == 'game':
             board.render(screen)
-
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
